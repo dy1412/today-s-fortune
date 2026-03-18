@@ -86,7 +86,7 @@ with col2:
 st.divider()
 
 # 5. 카드 클릭 UI
-st.write("### 🃏 아래 버튼을 클릭하세요!")
+st.write("### 🃏 아래 카드를 클릭하세요!")
 
 if not st.session_state.flipped:
     # 카드 앞면 버튼 (이모지 포함)
