@@ -135,4 +135,4 @@ else:
         st.rerun()
 
 st.divider()
-st.caption(f"본 운세는 재미로만 즐겨주세요. {user_name}님의 모든 선택은 당신의 몫입니다!😊")
+st.caption(f"본 운세는 재미로만 즐겨주세요. 모든 선택은 {user_name}님의 몫입니다! 행운을 빌어요!😊")
