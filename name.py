@@ -32,7 +32,7 @@ if 'selected_fortune' not in st.session_state:
         "건강이 우선입니다. 무리한 스케줄은 뒤로 미루세요. 🛌", "중요한 결정은 오늘보다 내일 내리는 것이 훨씬 유리합니다. 🗓️",
         "가까운 사이일수록 예의를 지켜야 오해가 생기지 않습니다. 🙏", "겉모습만 보고 판단했다가는 큰 코 다칠 수 있습니다. 🎭",
         "오늘은 낯선 사람의 호의를 경계하는 것이 좋습니다. 🙅", "스마트폰을 조금 멀리하고 눈의 피로를 풀어주세요. 📱",
-        "고집을 부리기보다는 유연하게 대처하는 지혜가 필요합니다. 🌊", "오늘은 운전이나 보행 시 교통법규를 철저히 지키세요. 🚥",
+        "고집을 부리기보다는 유연하게 대처하는 지혜가 필요합니다. 🌊", "오늘 운전이나 보행 시 교통법규를 철저히 지키세요. 🚥",
         "비밀은 가슴속에 묻어두세요. 오늘 새어나갈 위험이 있습니다. 🤫", "감정에 휘둘려 소중한 관계를 망치지 않도록 주의하세요. 🧊",
         "물건을 사기 전 세 번만 더 고민해보세요. 충동구매 주의! 🛒", "오늘은 과식을 피하고 소화가 잘되는 음식을 드세요. 🥗",
         "누군가 당신을 시기할 수 있으니 자랑은 조금만 아끼세요. 🤐", "계획이 틀어지더라도 당황하지 마세요. 플랜 B가 있습니다. 🗺️",
@@ -50,7 +50,7 @@ if 'selected_fortune' not in st.session_state:
         "당신의 유머 감각이 모임의 분위기를 주도합니다. 😂", "오늘은 라이벌과도 화해할 수 있는 너그러운 마음이 생깁니다. 🕊️",
         "진심 어린 칭찬 한 마디가 얼어붙은 관계를 녹입니다. 🔥", "사랑하는 사람과 맛있는 음식을 먹으며 힐링하는 하루입니다. 🍝",
         "오늘은 당신의 말보다 경청하는 태도가 인기를 끌어올립니다. 👂", "오랫동안 연락이 끊겼던 귀인을 다시 만나게 됩니다. 🙋‍♂️",
-        "사랑의 기운이 충만하여 표정부터 밝아지는 날입니다. 🥰", "오늘은 데이트 코스로 물가가 있는 곳을 추천합니다. 🌊",
+        "사랑의 기운이 충만하여 표정부터 밝아되는 날입니다. 🥰", "오늘 데이트 코스로 물가가 있는 곳을 추천합니다. 🌊",
         "우정과 사랑 사이에서 고민하던 답을 찾게 됩니다. ⚖️", "당신을 진심으로 응원하는 사람이 곁에 있음을 잊지 마세요. 📣",
         "오늘은 누군가를 도와줌으로써 더 큰 기쁨을 얻습니다. 👼", "사소한 다툼이 있더라도 금방 화해의 분위기가 조성됩니다. 🎈",
         "오늘은 믿음직한 모습으로 주변의 신뢰를 한 몸에 받습니다. 🎖️",
@@ -64,7 +64,7 @@ if 'selected_fortune' not in st.session_state:
         "오늘은 정리 정돈을 하면 새로운 아이디어가 샘솟습니다. ✨", "그동안의 노력이 드디어 숫자로 증명되는 날입니다. 📊",
         "오늘은 스터디 모임에서 아주 유익한 정보를 얻습니다. 🏫", "실패는 성공의 어머니! 오늘 얻은 교훈이 자산이 됩니다. 💎",
         "리더십을 발휘하여 팀을 성공으로 이끌게 됩니다. 🚩", "오늘은 장기적인 인생 계획을 세우기에 아주 맑은 정신입니다. 🧘‍♂️",
-        "나를 위한 투자가 아깝지 않은 결과로 돌아옵니다. 🏅", "오늘은 영어 단어 하나라도 더 외워지는 머리 회전의 날! 🧠",
+        "나를 위한 투자가 아깝지 않은 결과로 돌아옵니다. 🏅", "오늘 영어 단어 하나라도 더 외워지는 머리 회전의 날! 🧠",
         "경쟁자가 오히려 나의 성장을 돕는 자극제가 됩니다. ⚔️", "미루던 자격증 공부를 시작하면 끝까지 완주할 운세입니다. 📜",
         "오늘은 발표나 회의에서 당신의 목소리에 힘이 실립니다. 🎤", "꿈을 향한 당신의 진심이 드디어 문을 열어줍니다. 🚪",
         "오늘 하루를 완벽하게 보낸 나 자신에게 박수를 보내주세요. 👏"
@@ -73,8 +73,11 @@ if 'selected_fortune' not in st.session_state:
     st.session_state.selected_fortune = random.choice(fortunes)
     st.session_state.flipped = False
 
-# 4. 입력 섹션
+# 4. 입력 섹션 (이름 입력 추가)
 st.divider()
+# 이름 입력 칸을 가장 상단에 배치
+user_name = st.text_input("👤 당신의 이름을 입력하세요", value="여행자")
+
 col1, col2 = st.columns(2)
 with col1:
     user_zodiac = st.selectbox("🌠 별자리 선택", 
@@ -86,11 +89,13 @@ with col2:
 st.divider()
 
 # 5. 카드 클릭 UI
-st.write("### 🃏 아래 카드를 클릭하세요!")
+st.write(f"### 🃏 {user_name}님, 아래 카드를 클릭하세요!")
 
 if not st.session_state.flipped:
     # 카드 앞면 버튼 (이모지 포함)
-    if st.button("🧧\n\n클릭해서 확인", use_container_width=True):
+    # 이름이 비어있을 경우를 대비해 기본값 설정
+    display_name = user_name if user_name else "여행자"
+    if st.button(f"🧧\n\n{display_name}님의\n운세 확인", use_container_width=True):
         st.session_state.flipped = True
         st.rerun()
     st.caption("카드를 클릭하면 운세가 공개됩니다.")
@@ -98,6 +103,9 @@ if not st.session_state.flipped:
 else:
     # 카드 뒷면 (결과 화면)
     st.balloons()
+    
+    # 이름이 비어있을 경우를 대비해 기본값 설정
+    final_name = user_name if user_name else "여행자"
     
     st.markdown(f"""
         <div style="
@@ -108,8 +116,11 @@ else:
             text-align: center;
             box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
         ">
-            <h2 style="color: #FF4B4B; margin-bottom: 10px;">🍀 오늘의 운세를 확인하세요!</h2>
-            <p style="font-size: 1.1rem; color: #555;">{user_zodiac}와 {user_animal}의 운세</p>
+            <h2 style="color: #FF4B4B; margin-bottom: 10px;">🍀 오늘의 운세</h2>
+            <p style="font-size: 1.1rem; color: #555;">
+                <span style="font-weight: bold; color: #31333F;">{final_name}</span>님
+                ({user_zodiac} / {user_animal})의 운세
+            </p>
             <hr style="border: 0.5px solid #eee;">
             <h1 style="font-size: 1.6rem; color: #31333F; line-height: 1.5;">
                 {st.session_state.selected_fortune}
@@ -124,4 +135,4 @@ else:
         st.rerun()
 
 st.divider()
-st.caption("본 운세는 재미로만 즐겨주세요. 모든 선택은 당신의 몫입니다!😊")
+st.caption(f"본 운세는 재미로만 즐겨주세요. {user_name}님의 모든 선택은 당신의 몫입니다!😊")
