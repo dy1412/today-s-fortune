@@ -108,8 +108,8 @@ else:
             text-align: center;
             box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
         ">
-            <h2 style="color: #FF4B4B; margin-bottom: 10px;">🍀 오늘의 결과</h2>
-            <p style="font-size: 1.1rem; color: #555;">{user_zodiac} {user_animal} 운세</p>
+            <h2 style="color: #FF4B4B; margin-bottom: 10px;">🍀 오늘의 운세를 확인하세요!</h2>
+            <p style="font-size: 1.1rem; color: #555;">{user_zodiac} 와 {user_animal} 의 운세</p>
             <hr style="border: 0.5px solid #eee;">
             <h1 style="font-size: 1.6rem; color: #31333F; line-height: 1.5;">
                 {st.session_state.selected_fortune}
