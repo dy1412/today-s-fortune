@@ -86,14 +86,14 @@ with col2:
 st.divider()
 
 # 5. 카드 클릭 UI
-st.write("### 🃏 아래의 카드를 클릭하세요!")
+st.write("### 🃏 아래 버튼을 클릭하세요!")
 
 if not st.session_state.flipped:
     # 카드 앞면 버튼 (이모지 포함)
     if st.button("🧧\n\n클릭해서 확인", use_container_width=True):
         st.session_state.flipped = True
         st.rerun()
-    st.caption("카드를 클릭하면 100가지 운세 중 하나가 공개됩니다.")
+    st.caption("카드를 클릭하면 운세가 공개됩니다.")
 
 else:
     # 카드 뒷면 (결과 화면)
@@ -124,4 +124,4 @@ else:
         st.rerun()
 
 st.divider()
-st.caption("제공된 100개의 문구는 재미로만 즐겨주세요. 당신의 앞날을 응원합니다! 😊")
+st.caption("본 운세는 재미로만 즐겨주세요. 모든 선택은 당신의 몫입니다!😊")
