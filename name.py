@@ -3,136 +3,157 @@ import random
 from datetime import date
 
 # 1. 페이지 설정
-st.set_page_config(page_title="오늘의 운세는?", page_icon="🔮")
+st.set_page_config(page_title="오늘의 운세", page_icon="🔮", layout="centered")
 
-# 2. 제목 설정
-st.title("🔮 오늘의 운세는?")
-st.write(f"반가워요! 오늘은 **{date.today().strftime('%Y년 %m월 %d일')}**입니다.")
+# 2. 모던 스타일 적용 (라벤더 + 은하 + 카드 + 버튼)
+st.markdown("""
+<style>
+/* 전체 앱 배경: 라벤더 + 은하 느낌 */
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(135deg, #E6E6FA, #D8BFD8);
+    background-size: cover;
+}
 
-# 3. 100개의 운세 데이터 준비
+/* 사이드바 배경 */
+[data-testid="stSidebar"] {
+    background-color: #D8BFD8;
+}
+
+/* 제목과 텍스트 */
+h1, h2, h3, h4, p, span, div {
+    color: #2E0854;  /* 진한 보라 */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 운세 카드 */
+.fortune-card {
+    background: rgba(255,255,255,0.85);
+    border-radius: 30px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(138,43,226,0.5), 0 0 15px rgba(75,0,130,0.2) inset;
+    margin-bottom: 30px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.fortune-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 40px rgba(138,43,226,0.7), 0 0 20px rgba(75,0,130,0.3) inset;
+}
+
+/* 버튼 스타일 */
+.stButton>button {
+    background: linear-gradient(90deg, #9370DB, #BA55D3);
+    color: #fff;
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 15px 0;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.stButton>button:hover {
+    box-shadow: 0 0 15px #BA55D3, 0 0 15px #9370DB;
+    transform: scale(1.08);
+}
+
+/* 카드 안 텍스트 */
+.fortune-card h2 {
+    font-size: 2rem;
+    color: #8A2BE2;
+    margin-bottom: 10px;
+}
+
+.fortune-card h3 {
+    font-size: 1.3rem;
+    color: #4B0082;
+    line-height: 1.6;
+}
+
+.fortune-card p {
+    font-size: 1.1rem;
+    color: #2E0854;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# 3. 제목
+st.markdown("<h1 style='text-align:center;'>🔮 오늘의 운세</h1>", unsafe_allow_html=True)
+st.markdown(f"<p style='text-align:center;'>오늘은 <b>{date.today().strftime('%Y년 %m월 %d일')}</b>입니다.</p>", unsafe_allow_html=True)
+
+# 4. 운세 데이터
 if 'selected_fortune' not in st.session_state:
-    fortunes = [
-        # 행운과 긍정
-        "오늘은 생각지도 못한 곳에서 기분 좋은 소식이 들려옵니다. 💌", "당신의 미소가 주변 사람들에게 행복을 전파하는 하루입니다. 😄",
-        "잃어버렸던 물건을 찾거나 뜻밖의 선물을 받을 운세입니다. 🎁", "오늘 하루는 모든 일이 술술 풀리는 '프리패스'의 날! 🎫",
-        "당신의 잠재력이 빛을 발하여 주변의 인정을 받게 됩니다. ⭐", "가는 곳마다 환영받는 주인공이 되는 하루입니다. 👑",
-        "오늘은 복권을 사봐도 좋을 만큼 금전운이 최고조입니다. 💰", "오랫동안 간절히 원하던 일이 드디어 시작됩니다. 🚀",
-        "작은 친절이 큰 행운이 되어 돌아오는 날입니다. 🕊️", "오늘은 파란색 아이템이 당신에게 승리를 가져다줍니다. 💙",
-        "자신감을 가지고 전진하세요. 하늘이 당신을 돕고 있습니다. ☀️", "훌륭한 조력자가 나타나 어려운 문제를 해결해 줍니다. 🤝",
-        "오늘은 당신이 찍는 답이 정답이 되는 날입니다. ✅", "새로운 시작을 하기에 더할 나위 없이 완벽한 타이밍입니다. 🚩",
-        "우연히 들어간 가게에서 인생 음식을 만날 운명입니다. 🥘", "오늘은 미루던 일을 처리하기에 가장 좋은 에너지입니다. 🔥",
-        "당신의 아이디어가 황금알을 낳는 거위가 될 것입니다. 🥚", "오늘은 외출할수록 행운 지수가 상승합니다. 🌳",
-        "칭찬 한 마디에 구름 위를 걷는 듯한 기분을 느낍니다. ☁️", "가벼운 마음으로 시작한 일이 큰 성과로 이어집니다. 📈",
-        "오늘은 어딜 가나 주차 자리가 바로 나는 운세입니다. 🚗", "긍정적인 생각이 현실로 이루어지는 마법 같은 날입니다. 🪄",
-        "오늘은 당신의 매력이 최고점에 달해 인기가 폭발합니다. ✨", "막혔던 자금 흐름이 원활해지고 여유가 생깁니다. 💵",
-        "오늘 하루는 걱정 근심 없이 평온하고 행복합니다. 🌈",
-        # 조언과 주의
-        "오늘은 말 한마디에 천 냥 빚을 갚거나 만들 수 있으니 입조심! 🙊", "급할수록 돌아가세요. 서두르면 실수가 따르기 마련입니다. 🐢",
-        "타인의 일에 간섭하기보다는 자신의 내실을 기할 때입니다. 🧘", "오늘은 큰 지출을 피하고 지갑을 닫는 것이 현명합니다. 🔒",
-        "건강이 우선입니다. 무리한 스케줄은 뒤로 미루세요. 🛌", "중요한 결정은 오늘보다 내일 내리는 것이 훨씬 유리합니다. 🗓️",
-        "가까운 사이일수록 예의를 지켜야 오해가 생기지 않습니다. 🙏", "겉모습만 보고 판단했다가는 큰 코 다칠 수 있습니다. 🎭",
-        "오늘은 낯선 사람의 호의를 경계하는 것이 좋습니다. 🙅", "스마트폰을 조금 멀리하고 눈의 피로를 풀어주세요. 📱",
-        "고집을 부리기보다는 유연하게 대처하는 지혜가 필요합니다. 🌊", "오늘 운전이나 보행 시 교통법규를 철저히 지키세요. 🚥",
-        "비밀은 가슴속에 묻어두세요. 오늘 새어나갈 위험이 있습니다. 🤫", "감정에 휘둘려 소중한 관계를 망치지 않도록 주의하세요. 🧊",
-        "물건을 사기 전 세 번만 더 고민해보세요. 충동구매 주의! 🛒", "오늘은 과식을 피하고 소화가 잘되는 음식을 드세요. 🥗",
-        "누군가 당신을 시기할 수 있으니 자랑은 조금만 아끼세요. 🤐", "계획이 틀어지더라도 당황하지 마세요. 플랜 B가 있습니다. 🗺️",
-        "오늘은 계약서 도장을 찍기에 그리 좋은 날이 아닙니다. ✍️", "지난 일에 연연하지 말고 앞을 내다보는 안목을 가지세요. 🔭",
-        "사소한 시비에 휘말리지 않도록 평정심을 유지하세요. 🧘‍♂️", "오늘은 무리한 운동보다 가벼운 스트레칭이 적합합니다. 🧘‍♀️",
-        "약속 시간을 평소보다 조금 더 여유 있게 잡으세요. ⏰", "남의 떡이 커 보인다고 내 것을 버리지 마세요. 🥯",
-        "오늘은 일찍 귀가하여 가족과 시간을 보내는 것이 길합니다. 🏠",
-        # 사랑과 관계
-        "짝사랑하던 사람에게서 먼저 연락이 올지도 모릅니다. 📱", "연인과 깊은 대화를 나누며 서로의 소중함을 확인합니다. 💬",
-        "오늘은 소개팅하기에 아주 좋은 날입니다. 인연이 기다립니다. 💘", "오해가 있었다면 오늘 먼저 사과하세요. 쉽게 풀릴 것입니다. 🤝",
-        "당신의 다정함이 누군가의 마음을 녹이는 하루입니다. 🍦", "첫인상이 좋은 사람과 소중한 인연이 닿게 됩니다. 😊",
-        "오늘은 연인에게 깜짝 이벤트를 해주기 딱 좋은 날입니다. 🎉", "솔로라면 예상치 못한 장소에서 설레는 만남이 있습니다. 💓",
-        "옛 친구에게 연락이 와서 즐거운 추억 여행을 떠납니다. 📸", "서로의 눈빛만 봐도 마음이 통하는 텔레파시의 날! ⚡",
-        "오늘은 사랑 고백을 하기에 가장 용기가 샘솟는 날입니다. 💌", "부모님께 안부 전화를 드리면 큰 축복을 받게 됩니다. 📞",
-        "당신의 유머 감각이 모임의 분위기를 주도합니다. 😂", "오늘은 라이벌과도 화해할 수 있는 너그러운 마음이 생깁니다. 🕊️",
-        "진심 어린 칭찬 한 마디가 얼어붙은 관계를 녹입니다. 🔥", "사랑하는 사람과 맛있는 음식을 먹으며 힐링하는 하루입니다. 🍝",
-        "오늘은 당신의 말보다 경청하는 태도가 인기를 끌어올립니다. 👂", "오랫동안 연락이 끊겼던 귀인을 다시 만나게 됩니다. 🙋‍♂️",
-        "사랑의 기운이 충만하여 표정부터 밝아되는 날입니다. 🥰", "오늘 데이트 코스로 물가가 있는 곳을 추천합니다. 🌊",
-        "우정과 사랑 사이에서 고민하던 답을 찾게 됩니다. ⚖️", "당신을 진심으로 응원하는 사람이 곁에 있음을 잊지 마세요. 📣",
-        "오늘은 누군가를 도와줌으로써 더 큰 기쁨을 얻습니다. 👼", "사소한 다툼이 있더라도 금방 화해의 분위기가 조성됩니다. 🎈",
-        "오늘은 믿음직한 모습으로 주변의 신뢰를 한 몸에 받습니다. 🎖️",
-        # 일과 자기계발
-        "막혔던 프로젝트에 번뜩이는 영감이 떠오릅니다. 💡", "오늘은 집중력이 최고조에 달해 업무 효율이 폭발합니다. ⚡",
-        "상사나 선배로부터 기분 좋은 칭찬을 듣게 됩니다. 👍", "새로운 기술이나 취미를 배우기 시작하기에 아주 좋습니다. 🎨",
-        "포기하려던 일에서 예상치 못한 반전의 기회가 찾아옵니다. 🔄", "오늘은 당신의 전문성이 돋보여 중요한 임무를 맡게 됩니다. 💼",
-        "독서를 통해 인생을 바꿀 중요한 문장을 발견합니다. 📖", "시험이나 면접에서 당신의 실력을 200% 발휘합니다. 💯",
-        "정체되었던 성적이 오르거나 업무 성과가 나타납니다. 📈", "오늘은 협상 테이블에서 유리한 위치를 점하게 됩니다. 🤝",
-        "목표를 향해 한 걸음 더 다가가는 보람찬 하루입니다. 👣", "당신의 열정이 주변 사람들에게 긍정적인 자극을 줍니다. 🏃",
-        "오늘은 정리 정돈을 하면 새로운 아이디어가 샘솟습니다. ✨", "그동안의 노력이 드디어 숫자로 증명되는 날입니다. 📊",
-        "오늘은 스터디 모임에서 아주 유익한 정보를 얻습니다. 🏫", "실패는 성공의 어머니! 오늘 얻은 교훈이 자산이 됩니다. 💎",
-        "리더십을 발휘하여 팀을 성공으로 이끌게 됩니다. 🚩", "오늘은 장기적인 인생 계획을 세우기에 아주 맑은 정신입니다. 🧘‍♂️",
-        "나를 위한 투자가 아깝지 않은 결과로 돌아옵니다. 🏅", "오늘 영어 단어 하나라도 더 외워지는 머리 회전의 날! 🧠",
-        "경쟁자가 오히려 나의 성장을 돕는 자극제가 됩니다. ⚔️", "미루던 자격증 공부를 시작하면 끝까지 완주할 운세입니다. 📜",
-        "오늘은 발표나 회의에서 당신의 목소리에 힘이 실립니다. 🎤", "꿈을 향한 당신의 진심이 드디어 문을 열어줍니다. 🚪",
-        "오늘 하루를 완벽하게 보낸 나 자신에게 박수를 보내주세요. 👏"
-    ]
+    fortunes = {
+        "행운": [
+            "오늘은 생각지도 못한 곳에서 기분 좋은 소식이 들려옵니다. 💌",
+            "잃어버렸던 물건을 찾거나 뜻밖의 선물을 받을 운세입니다. 🎁",
+            "오늘 하루는 모든 일이 술술 풀리는 '프리패스'의 날! 🎫",
+        ],
+        "조언": [
+            "오늘은 말 한마디에 천 냥 빚을 갚거나 만들 수 있으니 입조심! 🙊",
+            "급할수록 돌아가세요. 서두르면 실수가 따르기 마련입니다. 🐢",
+            "타인의 일에 간섭하기보다는 자신의 내실을 기할 때입니다. 🧘",
+        ],
+        "사랑": [
+            "짝사랑하던 사람에게서 먼저 연락이 올지도 모릅니다. 📱",
+            "연인과 깊은 대화를 나누며 서로의 소중함을 확인합니다. 💬",
+            "오늘은 소개팅하기에 아주 좋은 날입니다. 인연이 기다립니다. 💘",
+        ],
+        "일/자기계발": [
+            "막혔던 프로젝트에 번뜩이는 영감이 떠오릅니다. 💡",
+            "오늘은 집중력이 최고조에 달해 업무 효율이 폭발합니다. ⚡",
+            "상사나 선배로부터 기분 좋은 칭찬을 듣게 됩니다. 👍",
+        ]
+    }
     st.session_state.all_fortunes = fortunes
-    st.session_state.selected_fortune = random.choice(fortunes)
+    st.session_state.selected_fortune = None
     st.session_state.flipped = False
 
-# 4. 입력 섹션 (이름 입력 추가)
+# 5. 이름 / 별자리 / 띠 입력
 st.divider()
-# 이름 입력 칸을 가장 상단에 배치
 user_name = st.text_input("👤 당신의 이름을 입력하세요", value="여행자")
-
 col1, col2 = st.columns(2)
 with col1:
-    user_zodiac = st.selectbox("🌠 별자리 선택", 
-        ["양자리", "황소자리", "쌍둥이자리", "게자리", "사자자리", "처녀자리", "천칭자리", "전갈자리", "사수자리", "염소자리", "물병자리", "물고기자리"])
+    user_zodiac = st.selectbox("🌠 별자리 선택", [
+        "양자리","황소자리","쌍둥이자리","게자리","사자자리","처녀자리",
+        "천칭자리","전갈자리","사수자리","염소자리","물병자리","물고기자리"
+    ])
 with col2:
-    user_animal = st.selectbox("🐾 띠 선택", 
-        ["쥐띠", "소띠", "호랑이띠", "토끼띠", "용띠", "뱀띠", "말띠", "양띠", "원숭이띠", "닭띠", "개띠", "돼지띠"])
-
+    user_animal = st.selectbox("🐾 띠 선택", [
+        "쥐띠","소띠","호랑이띠","토끼띠","용띠","뱀띠","말띠",
+        "양띠","원숭이띠","닭띠","개띠","돼지띠"
+    ])
 st.divider()
 
-# 5. 카드 클릭 UI
-st.write(f"### 🃏 {user_name}님, 아래 카드를 클릭하세요!")
+# 6. 카드 클릭 UI
+st.markdown(f"<h3 style='text-align:center;'>🃏 {user_name}님, 카드를 클릭해 오늘의 운세를 확인하세요!</h3>", unsafe_allow_html=True)
 
 if not st.session_state.flipped:
-    # 카드 앞면 버튼 (이모지 포함)
-    # 이름이 비어있을 경우를 대비해 기본값 설정
-    display_name = user_name if user_name else "여행자"
-    if st.button(f"🧧\n\n{display_name}님의\n운세 확인", use_container_width=True):
+    if st.button(f"🧧 운세 확인", use_container_width=True):
+        fortune_category = random.choice(list(st.session_state.all_fortunes.keys()))
+        st.session_state.selected_fortune = random.choice(st.session_state.all_fortunes[fortune_category])
+        st.session_state.lucky_number = random.randint(1,99)
+        st.session_state.lucky_color = random.choice(["보라","파랑","핑크","흰색","은색"])
         st.session_state.flipped = True
         st.rerun()
-    st.caption("카드를 클릭하면 운세가 공개됩니다.")
-
+    st.caption("카드를 클릭하면 오늘의 맞춤 운세와 행운 숫자가 공개됩니다.")
 else:
-    # 카드 뒷면 (결과 화면)
     st.balloons()
-    
-    # 이름이 비어있을 경우를 대비해 기본값 설정
-    final_name = user_name if user_name else "여행자"
-    
     st.markdown(f"""
-        <div style="
-            background-color: #ffffff;
-            border: 4px solid #FF4B4B;
-            border-radius: 15px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
-        ">
-            <h2 style="color: #FF4B4B; margin-bottom: 10px;">🍀 오늘의 운세</h2>
-            <p style="font-size: 1.1rem; color: #555;">
-                <span style="font-weight: bold; color: #31333F;">{final_name}</span>님
-                ({user_zodiac} / {user_animal})의 운세
-            </p>
-            <hr style="border: 0.5px solid #eee;">
-            <h1 style="font-size: 1.6rem; color: #31333F; line-height: 1.5;">
-                {st.session_state.selected_fortune}
-            </h1>
+        <div class="fortune-card">
+            <h2>🍀 오늘의 운세</h2>
+            <p><b>{user_name}</b>님 ({user_zodiac} / {user_animal})의 운세</p>
+            <hr>
+            <h3>{st.session_state.selected_fortune}</h3>
+            <p>🎲 행운 숫자: <b>{st.session_state.lucky_number}</b>  
+               🎨 행운 색상: <b>{st.session_state.lucky_color}</b></p>
         </div>
     """, unsafe_allow_html=True)
-
-    # 다시 뽑기 버튼
+    
     if st.button("🔄 다시 뽑기", use_container_width=True):
         st.session_state.flipped = False
-        st.session_state.selected_fortune = random.choice(st.session_state.all_fortunes)
+        st.session_state.selected_fortune = None
         st.rerun()
 
 st.divider()
-st.caption(f"본 운세는 재미로만 즐겨주세요. 모든 선택은 {user_name}님의 몫입니다! 행운을 빌어요!😊")
+st.caption(f"본 운세는 재미로만 즐겨주세요. 모든 선택은 {user_name}님의 몫입니다! ✨")
